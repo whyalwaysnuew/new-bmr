@@ -53,7 +53,7 @@
             </a>
 
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -61,8 +61,8 @@
             </div>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="dashboard.php">
+            <li class="nav-item">
+                <a class="nav-link" href="/bmr-calculator">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -106,7 +106,7 @@
             </li>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="consumption.php">
                     <i class="fas fa-cheese"></i>
                     <span>Konsumsi</span></a>
@@ -211,8 +211,8 @@
                                                 </td>
                                                 <td class="align-middle"><?= $consumption['energy']; ?></td>
                                                 <td class="align-middle justify-content-center">
-                                                    <a href="#" class="btn btn-warning text-white"  data-toggle="modal" data-target="#editModal<?= $key ?>">Ubah</a>
-                                                    <a href="#" class="btn btn-danger">Hapus</a>
+                                                    <a href="#" class="btn btn-warning text-white" data-toggle="modal" data-target="#editModal<?= $key ?>">Ubah</a>
+                                                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $key ?>">Hapus</a>
                                                 </td>
                                             </tr>
 
@@ -221,7 +221,7 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                                                            <h5 class="modal-title" id="exampleModalLabel">Edit <?= $consumption['name']; ?></h5>
                                                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">×</span>
                                                             </button>
@@ -255,6 +255,31 @@
                                                             <div class="modal-footer">
                                                                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                                                                 <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal fade" id="deleteModal<?= $key ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Yakin Ingin Hapus?</h5>
+                                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <form action="app/consumption/delete.php" method="post">
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="id" id="id" value="<?= $consumption['id']; ?>">
+                                                                
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                                <button type="submit" class="btn btn-danger" name="submit">Delete</button>
                                                             </div>
                                                         </form>
                                                     </div>

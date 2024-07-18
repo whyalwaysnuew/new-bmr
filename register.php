@@ -9,22 +9,25 @@
     }
 
     if(isset($_POST['submit'])){
+        $name = $_POST['name'];
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT * FROM users WHERE username='$username' AND password ='$password'";
+        $sql = "INSERT INTO users (name, username, password, is_admin)
+            VALUES (
+                '$name',
+                '$username',
+                '$password',
+                0
+            )";
         $result = mysqli_query($koneksi, $sql);
 
-        if($result->num_rows > 0){
-            $row = mysqli_fetch_assoc($result);
-            $_SESSION['username'] = $row['username'];
-            $_SESSION['name'] = $row['name'];
-            $_SESSION['is_admin'] = $row['is_admin'];
-            header("Location: /bmr-calculator");
-            exit();
-        } else {
-            echo "<script>alert('Username atau Password Salah!')</script>";
-        }
+        echo "
+            <script>
+                alert('Berhasil Register!');
+                document.location='login.php';
+            </script>
+        ";
     }
 ?>
 
@@ -41,7 +44,10 @@
 <body>
     <div class="container">
         <form action="" method="POST" class="login-form">
-            <p class="login-text" style="font-size: 2rem; font-weight: 800;">Login</p>
+            <p class="login-text" style="font-size: 2rem; font-weight: 800;">Register</p>
+            <div class="input-group">
+                <input type="text" placeholder="e.g Gian Pranata" name="name" required>
+            </div>
             <div class="input-group">
                 <input type="text" placeholder="Username" name="username" required>
             </div>
@@ -49,9 +55,9 @@
                 <input type="password" placeholder="Password" name="password" required>
             </div>
             <div class="input-group">
-                <button name="submit" class="btn">Login</button>
+                <button name="submit" class="btn">Register</button>
             </div>
-            <p class="login-register-text">Anda belum punya akun? <a href="register.php">Register</a></p>
+            <p class="login-register-text">Sudah punya akun? <a href="login.php">Login</a></p>
         </form>
     </div>
 </body>

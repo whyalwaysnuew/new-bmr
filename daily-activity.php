@@ -6,7 +6,7 @@
         header("Location: login.php");
         exit(); 
     }
-    // $query = "";
+    $activities = mysqli_query($koneksi, "SELECT * FROM physical_activity");
     // $urlcrud
 ?>
 
@@ -21,7 +21,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Aktifitas Harian | BMR Calculator</title>
 
     <!-- Custom fonts for this template-->
     <link href="public/sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -48,7 +48,7 @@
             </a>
 
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -56,8 +56,8 @@
             </div>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="dashboard.php">
+            <li class="nav-item">
+                <a class="nav-link" href="/bmr-calculator">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -69,6 +69,12 @@
                     <span>Bassal Metabolic Rate</span></a>
             </li>
 
+			<!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="daily-calorie.php">
+                    <i class="fas fa-cookie-bite"></i>
+                    <span>Kalori Harian</span></a>
+            </li>
             
             <?php if($_SESSION['is_admin']){ ?>
             <!-- Divider -->
@@ -82,21 +88,21 @@
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="physical-activity.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-running"></i>
                     <span>Aktifitas Fisik</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="activity-scale.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-balance-scale"></i>
                     <span>Skala Aktifitas</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="consumption.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-cheese"></i>
                     <span>Konsumsi</span></a>
             </li>
 
@@ -158,79 +164,30 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <h1 class="h3 mb-0 text-gray-800">Aktifitas Harian</h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                    <?php if($activities) {?>
+                        <?php foreach($activities as $activity) {?>
+						<div class="col-12 col-md-6 col-lg-4 mb-4">
+
+                            <!-- Illustrations -->
+                            <div class="card shadow mb-4 border-left-primary">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <h5 class="m-0 font-weight-bold text-primary"><?= $activity['name']; ?></h5>
+                                    <h4 class="font-weight-bold text-danger m-0"><?= $activity['calorie']; ?> Kkal</h4>
+                                </div>
                                 <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
+                                    <p><?= $activity['description']; ?></p>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                    <?php }} ?>
+                        
                     </div>
 
                 </div>
