@@ -37,6 +37,7 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.0/css/dataTables.dataTables.min.css">
 </head>
 
 <body id="page-top">
@@ -362,6 +363,10 @@
     <!-- Page level custom scripts -->
     <script src="public/sbadmin/js/demo/datatables-demo.js"></script>
 
+    <script src="https://cdn.datatables.net/2.1.0/js/dataTables.min.js"></script>
+    <script>
+        let table = new DataTable('#dataTable');
+    </script>
 </body>
 
 </html>
