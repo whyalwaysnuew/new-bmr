@@ -65,7 +65,7 @@
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="bmr.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-weight"></i>
                     <span>Bassal Metabolic Rate</span></a>
             </li>
 
@@ -74,6 +74,13 @@
                 <a class="nav-link" href="daily-calorie.php">
                     <i class="fas fa-cookie-bite"></i>
                     <span>Kalori Harian</span></a>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="consultation.php">
+                    <i class="fas fa-user-md"></i>
+                    <span>Konsultasi</span></a>
             </li>
             
             <?php if($_SESSION['is_admin']){ ?>
@@ -104,6 +111,13 @@
                 <a class="nav-link" href="consumption.php">
                     <i class="fas fa-cheese"></i>
                     <span>Konsumsi</span></a>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="question.php">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Rules Pertanyaan</span></a>
             </li>
 
             <!-- Divider -->
@@ -170,7 +184,7 @@
                     <!-- Content Row -->
                     <div class="row">
 
-						<div class="col-12 col-md-6 col-lg-4 mb-4">
+						<div class="col-12 col-md-6 col-lg-3 mb-4">
 
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
@@ -189,7 +203,7 @@
 
                         </div>
 
-						<div class="col-12 col-md-6 col-lg-4 mb-4">
+						<div class="col-12 col-md-6 col-lg-3 mb-4">
 
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
@@ -201,14 +215,14 @@
                                         <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
                                             src="public/assets/media/illustrations/sketchy-1/4.png" alt="...">
                                     </div>
-                                    <p>Hitung kalori dari makanan yang Anda konsumsi hari ini.</p>
+                                    <p>Hitung kalori dari makanan yang Anda konsumsi hari ini</p>
                                     <a href="daily-calorie.php">Mulai &rarr;</a>
                                 </div>
                             </div>
 
                         </div>
 
-						<div class="col-12 col-md-12 col-lg-4 mb-4">
+						<div class="col-12 col-md-6 col-lg-3 mb-4">
 
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
@@ -221,6 +235,25 @@
                                             src="public/assets/media/illustrations/sketchy-1/9.png" alt="...">
                                     </div>
                                     <p>Lihat rekomendasi aktifitas fisik yang mudah untuk dilakukan</p>
+                                    <a href="daily-activity.php">Mulai &rarr;</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+						<div class="col-12 col-md-6 col-lg-3 mb-4">
+
+                            <!-- Illustrations -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Konsultasi</h6>
+                                </div>
+                                <div class="card-body">
+									<div class="text-center">
+                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                            src="public/assets/media/illustrations/sketchy-1/5.png" alt="...">
+                                    </div>
+                                    <p>Ketahui intensitas aktifitas harian melalui beberapa pertanyaan</p>
                                     <a href="daily-activity.php">Mulai &rarr;</a>
                                 </div>
                             </div>

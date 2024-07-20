@@ -82,6 +82,13 @@
                     <span>Kalori Harian</span></a>
             </li>
 
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="consultation.php">
+                    <i class="fas fa-user-md"></i>
+                    <span>Konsultasi</span></a>
+            </li>
+
             
             <?php if($_SESSION['is_admin']){ ?>
             <!-- Divider -->
@@ -111,6 +118,13 @@
                 <a class="nav-link" href="consumption.php">
                     <i class="fas fa-cheese"></i>
                     <span>Konsumsi</span></a>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="question.php">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Rules Pertanyaan</span></a>
             </li>
 
             <!-- Divider -->
@@ -249,7 +263,7 @@
 
                                                                 <div class="form-group">
                                                                     <label for="energy">Energi</label>
-                                                                    <input type="number" class="form-control" id="energy" name="energy" placeholder="e.g. 250" value="<?= $consumption['energy']; ?>" required>
+                                                                    <input type="text" class="form-control" id="energy" name="energy" placeholder="e.g. 250" value="<?= $consumption['energy']; ?>" required>
                                                                 </div>
 
                                                             </div>
@@ -354,7 +368,7 @@
 
                         <div class="form-group">
                             <label for="energy">Energi</label>
-                            <input type="number" class="form-control" id="energy" name="energy" placeholder="e.g. 250">
+                            <input type="text" class="form-control" id="energy" name="energy" placeholder="e.g. 250">
                         </div>
 
                     </div>

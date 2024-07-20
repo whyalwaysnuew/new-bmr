@@ -7,7 +7,7 @@
         exit(); 
     }
 
-    $activities = mysqli_query($koneksi, "SELECT * FROM physical_activity");
+    $questions = mysqli_query($koneksi, "SELECT * FROM questions");
     // $query = "";
     // $urlcrud
 ?>
@@ -23,7 +23,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Aktifitas Fisik - BMR Calculator</title>
+    <title>Rules Pertanyaan Aktifitas Fisik - BMR Calculator</title>
 
     <!-- Custom fonts for this template-->
     <link href="public/sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -100,7 +100,7 @@
             </div>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="physical-activity.php">
                     <i class="fas fa-running"></i>
                     <span>Aktifitas Fisik</span></a>
@@ -121,7 +121,7 @@
             </li>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="question.php">
                     <i class="fas fa-question-circle"></i>
                     <span>Rules Pertanyaan</span></a>
@@ -185,7 +185,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Aktifitas Fisik</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Rules Pertanyaan Aktifitas Fisik</h1>
                         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="#" data-toggle="modal" data-target="#addModal">
                             <!-- <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> -->
                             <i class="fas fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -196,7 +196,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Data Aktifitas Fisik</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Data Pertanyaan</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -204,22 +204,16 @@
                                     <thead>
                                         <tr>
                                             <th class="align-middle text-center">No</th>
-                                            <th class="align-middle">Name</th>
-                                            <th class="align-middle">Description</th>
-                                            <th class="align-middle">Calorie</th>
+                                            <th class="align-middle">Pertanyaan</th>
                                             <th class="align-middle">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if($activities) {?>
-                                            <?php foreach ($activities as $key => $physical_activity) { ?>
+                                        <?php if($questions) {?>
+                                            <?php foreach ($questions as $key => $question) { ?>
                                             <tr>
                                                 <td class="text-center align-middle"><?= $key+1; ?></td>
-                                                <td class="align-middle"><?= $physical_activity['name']; ?></td>
-                                                <td class="align-middle">
-                                                    <?= $physical_activity['description']?>
-                                                </td>
-                                                <td class="align-middle"><?= $physical_activity['calorie']; ?></td>
+                                                <td class="align-middle"><?= $question['quest']; ?></td>
                                                 <td class="align-middle justify-content-center">
                                                     <a href="#" class="btn btn-warning text-white" data-toggle="modal" data-target="#editModal<?= $key ?>">Ubah</a>
                                                     <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $key ?>">Hapus</a>
@@ -231,27 +225,18 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Edit <?= $physical_activity['name']; ?></h5>
+                                                            <h5 class="modal-title" id="exampleModalLabel">Edit Rules Pertanyaan</h5>
                                                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">×</span>
                                                             </button>
                                                         </div>
-                                                        <form action="app/physical-activity/update.php" method="post">
+                                                        <form action="app/question/update.php" method="post">
                                                             <div class="modal-body">
-                                                                <input type="hidden" name="id" id="id" value="<?= $physical_activity['id']; ?>">
-                                                                <div class="form-group">
-                                                                    <label for="name">Nama</label>
-                                                                    <input type="text" class="form-control" id="name" name="name" placeholder="e.g. Plank" value="<?= $physical_activity['name']; ?>" required>
-                                                                </div>
+                                                                <input type="hidden" name="id" id="id" value="<?= $question['id']; ?>">
 
                                                                 <div class="form-group">
-                                                                    <label for="description">Deskripsi</label>
-                                                                    <textarea name="description" id="description" class="form-control"><?= $physical_activity['description'] ?></textarea>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label for="calorie">Energi</label>
-                                                                    <input type="number" class="form-control" id="calorie" name="calorie" placeholder="e.g. 250" value="<?= $physical_activity['calorie']; ?>" required>
+                                                                    <label for="question">Pertanyaan</label>
+                                                                    <textarea name="question" id="question" class="form-control"><?= $question['quest'] ?></textarea>
                                                                 </div>
 
                                                             </div>
@@ -274,9 +259,9 @@
                                                                 <span aria-hidden="true">×</span>
                                                             </button>
                                                         </div>
-                                                        <form action="app/physical-activity/delete.php" method="post">
+                                                        <form action="app/question/delete.php" method="post">
                                                             <div class="modal-body">
-                                                                <input type="hidden" name="id" id="id" value="<?= $physical_activity['id']; ?>">
+                                                                <input type="hidden" name="id" id="id" value="<?= $question['id']; ?>">
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
@@ -327,26 +312,17 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data Aktifitas Fisik</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Rules Pertanyaan</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="app/physical-activity/store.php" method="post">
+                <form action="app/question/store.php" method="post">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="name">Nama</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="e.g. Plank">
-                        </div>
 
                         <div class="form-group">
-                            <label for="description">Deskripsi</label>
-                            <textarea name="description" id="description" class="form-control"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="calorie">Energi</label>
-                            <input type="number" class="form-control" id="calorie" name="calorie" placeholder="e.g. 250"required>
+                            <label for="question">Pertanyaan</label>
+                            <textarea name="question" id="question" class="form-control"></textarea>
                         </div>
 
                     </div>

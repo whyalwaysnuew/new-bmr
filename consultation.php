@@ -7,23 +7,20 @@
         exit(); 
     }
 
-    $activity_scale = mysqli_query($koneksi, "SELECT * FROM activity_scale");
+    $utama = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='1'");
+    $sayur = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='2'");
+    $lauk = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='3'");
+    $minuman = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='4'");
+    $cemilan = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='5'");
+    $buah = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='6'");
 
 
     if(isset($_POST['submit'])){
 
-        $age = $_POST['age'] ?? 0;
-        $gender = $_POST['gender'] ? ($_POST['gender'] == 1 ? -161 : 5) : 0;
-        $height = $_POST['height'] ?? 0;
-        $weight = $_POST['weight'] ?? 0;
-        $scale = $_POST['scale'] ?? 0;
-
-        $bmr_actual = (10 * $_POST['weight']) + (6.25 * $_POST['height']) - (5 * $_POST['age']) + $gender;
-        $bmr_ideal = (10 * ($_POST['height'] - 100)) + (6.25 * $_POST['height']) - (5 * $_POST['age']) + $gender;
-
-        $calorie_needs_actual = $bmr_actual * $scale;
-        $calorie_needs_ideal = $bmr_ideal * $scale;
-
+        $pagi = $_POST['utama_1'] + $_POST['sayuran_1'] + $_POST['lauk_1'] + $_POST['minum_1'] + $_POST['cemilan_1'] + $_POST['buah_1'];
+        $siang = $_POST['utama_2'] + $_POST['sayuran_2'] + $_POST['lauk_2'] + $_POST['minum_2'] + $_POST['cemilan_2'] + $_POST['buah_2'];
+        $malam = $_POST['utama_3'] + $_POST['sayuran_3'] + $_POST['lauk_3'] + $_POST['minum_3'] + $_POST['cemilan_3'] + $_POST['buah_3'];
+        
     }
 ?>
 
@@ -38,7 +35,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hitung Bassal Metabolic Rate | BMR Calculator</title>
+    <title>Hitung Kalori Harian | BMR Calculator</title>
 
     <!-- Custom fonts for this template-->
     <link href="public/sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -80,7 +77,7 @@
             </li>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="bmr.php">
                     <i class="fas fa-weight"></i>
                     <span>Bassal Metabolic Rate</span></a>
@@ -93,8 +90,8 @@
                     <span>Kalori Harian</span></a>
             </li>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
+			<!-- Nav Item - Charts -->
+            <li class="nav-item active">
                 <a class="nav-link" href="consultation.php">
                     <i class="fas fa-user-md"></i>
                     <span>Konsultasi</span></a>
@@ -195,123 +192,99 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Hitung Bassal Metabolic Rate</h1>
-                        <?php if(isset($_POST['submit'])) {?>
-                            <div class="d-flex">
-                                <a href="app/main/bmr-print.php?age=<?=$age?>&weight=<?=$weight?>&height=<?=$height?>&gender=<?=$_POST['gender']?>&scale=<?=$scale?>" target="_blank" class="btn btn-sm btn-success mr-2">Print</a>
-                                <a href="" class="btn btn-sm btn-primary">Hitung Ulang</a>
-                            </div>
-                        <?php } ?>
+                        <h1 class="h3 mb-0 text-gray-800">Hitung Kalori Harian</h1>
                     </div>
 
-                    <?php if(!isset($_POST['submit'])) {?>
                         <form action="" method="post">
                             <!-- Content Row -->
                             <div class="row">
-                                <div class="col-12 mb-4">
+        
+                                <div class="col-12 col-md-6 col-lg-4 mb-4">
+        
                                     <!-- Illustrations -->
-                                    <div class="card shadow">
+                                    <div class="card shadow mb-4">
                                         <div class="card-header py-3">
-                                            <h6 class="m-0 font-weight-bold text-primary">Detail</h6>
+                                            <h6 class="m-0 font-weight-bold text-primary">Pagi</h6>
                                         </div>
-                                        <div class="card-body d-flex flex-wrap">
-                                            <div class="form-group col-12 col-md-6">
-                                                <label for="gender">Jenis Kelamin</label>
-                                                <select class="form-control" id="gender" name="gender" require>
-                                                    <option value="1" selected>Perempuan</option>
-                                                    <option value="2">Laki-laki</option>
-                                                </select>
-                                            </div>
-        
-                                            <div class="form-group col-12 col-md-6">
-                                                <label for="age">Umur</label>
-                                                <input type="number" name="age" id="age" placeholder="e.g. 20" class="form-control" value="0" require>
-                                            </div>
-
-                                            <div class="form-group col-12 col-md-6">
-                                                <label for="height">Tinggi Badan</label>
-                                                <input type="number" name="height" id="height" placeholder="e.g. 167" class="form-control" value="0" require>
-                                            </div>
-                                            
-                                            <div class="form-group col-12 col-md-6">
-                                                <label for="weight">Berat Badan</label>
-                                                <input type="number" name="weight" id="weight" placeholder="e.g. 50" class="form-control" value="0" require>
-                                            </div>
-        
-                                            <div class="form-group col-12 col-md-6">
-                                                <label for="scale">Aktifitas Fisik</label>
-                                                <select class="form-control" id="scale" name="scale">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="utama_1">Makanan Utama</label>
+                                                <select class="form-control" id="utama_1" name="utama_1" require>
                                                     <option value="0" selected>-- Pilih --</option>
-                                                    <?php if($activity_scale) {?>
-                                                        <?php foreach ($activity_scale as $row) { ?>
-                                                        <option value="<?= $row['scale'] ?>"><?= $row['name'] ?></option>
+                                                    <?php if($utama) {?>
+                                                        <?php foreach ($utama as $row) { ?>
+                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
         
-                                        </div>
-
-                                        <div class="card-footer d-flex justify-content-end">
-                                            <button type="submit" name="submit" class="btn btn-primary col-12 py-2">Submit</button>
+                                            <div class="form-group">
+                                                <label for="sayuran_1">Sayuran</label>
+                                                <select class="form-control" id="sayuran_1" name="sayuran_1">
+                                                    <option value="0" selected>-- Pilih --</option>
+                                                    <?php if($sayur) {?>
+                                                        <?php foreach ($sayur as $row) { ?>
+                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                    <?php }}?>
+                                                </select>
+                                            </div>
+        
+                                            <div class="form-group">
+                                                <label for="lauk_1">Lauk</label>
+                                                <select class="form-control" id="lauk_1" name="lauk_1">
+                                                    <option value="0" selected>-- Pilih --</option>
+                                                    <?php if($lauk) {?>
+                                                        <?php foreach ($lauk as $row) { ?>
+                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                    <?php }}?>
+                                                </select>
+                                            </div>
+        
+                                            <div class="form-group">
+                                                <label for="minum_1">Minuman</label>
+                                                <select class="form-control" id="minum_1" name="minum_1">
+                                                    <option value="0" selected>-- Pilih --</option>
+                                                    <?php if($minuman) {?>
+                                                        <?php foreach ($minuman as $row) { ?>
+                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                    <?php }}?>
+                                                </select>
+                                            </div>
+        
+                                            <div class="form-group">
+                                                <label for="cemilan_1">Cemilan</label>
+                                                <select class="form-control" id="cemilan_1" name="cemilan_1">
+                                                    <option value="0" selected>-- Pilih --</option>
+                                                    <?php if($cemilan) {?>
+                                                        <?php foreach ($cemilan as $row) { ?>
+                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                    <?php }}?>
+                                                </select>
+                                            </div>
+        
+                                            <div class="form-group">
+                                                <label for="buah_1">Buah</label>
+                                                <select class="form-control" id="buah_1" name="buah_1">
+                                                    <option value="0" selected>-- Pilih --</option>
+                                                    <?php if($buah) {?>
+                                                        <?php foreach ($buah as $row) { ?>
+                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                    <?php }}?>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
+        
+                                </div>
+                                
+                            </div>
+
+                            <div class="row mb-5">
+                                <div class="col-12 d-flex justify-content-end">
+                                    <button type="submit" name="submit" class="btn btn-primary col-12 py-2">Submit</button>
                                 </div>
                             </div>
                         </form>
-                    <?php } else { ?>
-                        <div class="row">
-                            <div class="col-12 col-md-4 mb-4">
-                                <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                    Kebutuhan Kalori Harian</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $calorie_needs_actual; ?> Kkal</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-utensils fa-2x text-gray-300"></i>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-4 mb-4">
-                                <div class="card border-left-warning shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                    Kebutuhan Kalori Ideal</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $calorie_needs_ideal; ?> Kkal</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-user-check fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-4 mb-4">
-                                <div class="card <?= $calorie_needs_actual == $calorie_needs_ideal ? 'border-left-success' : ($calorie_needs_actual < $calorie_needs_ideal ? 'border-left-danger' : 'border-left-info') ?> shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold <?= $calorie_needs_actual == $calorie_needs_ideal ? 'text-success' : ($calorie_needs_actual < $calorie_needs_ideal ? 'text-danger' : 'text-info') ?> text-uppercase mb-1">
-                                                    <?= $calorie_needs_actual < $calorie_needs_ideal ? 'Kekurangan' : 'Kelebihan'; ?> Kalori</div>
-                                                <div class="h5 mb-0 font-weight-bold <?= $calorie_needs_actual == $calorie_needs_ideal ? 'text-success' : ($calorie_needs_actual < $calorie_needs_ideal ? 'text-danger' : 'text-info') ?>"><?= $calorie_needs_actual - $calorie_needs_ideal; ?> Kkal</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php } ?>
                 </div>
                 <!-- /.container-fluid -->
 

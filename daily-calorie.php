@@ -79,7 +79,7 @@
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="bmr.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-weight"></i>
                     <span>Bassal Metabolic Rate</span></a>
             </li>
 
@@ -88,6 +88,13 @@
                 <a class="nav-link" href="daily-calorie.php">
                     <i class="fas fa-cookie-bite"></i>
                     <span>Kalori Harian</span></a>
+            </li>
+
+			<!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="consultation.php">
+                    <i class="fas fa-user-md"></i>
+                    <span>Konsultasi</span></a>
             </li>
             
             <?php if($_SESSION['is_admin']){ ?>
@@ -118,6 +125,13 @@
                     <a class="nav-link" href="consumption.php">
                         <i class="fas fa-cheese"></i>
                         <span>Konsumsi</span></a>
+                </li>
+
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link" href="question.php">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Rules Pertanyaan</span></a>
                 </li>
 
                 <!-- Divider -->
