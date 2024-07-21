@@ -379,7 +379,10 @@
                                     <div class="card-body">
                                         <label for="" class="form-label font-weight-bold">Rumus</label>
                                         <h6>
-                                            BMR = (10 x berat badan aktual) + (6.25 + tinggi badan) - (5 x umur) <?= $_POST['gender'] == 1 ? '- 161' : '+ 5'; ?>
+                                            BMR Aktual = (10 x berat badan aktual) + (6.25 + tinggi badan) - (5 x umur) <?= $_POST['gender'] == 1 ? '- 161' : '+ 5'; ?>
+                                        </h6>
+                                        <h6>
+                                            BMR Ideal = (10 x (tinggi badan - 100)) + (6.25 + tinggi badan) - (5 x umur) <?= $_POST['gender'] == 1 ? '- 161' : '+ 5'; ?>
                                         </h6>
                                         <h6 class="mb-5">
                                             Kebutuhan Kalori Harian = BMR x Aktifitas Fisik
