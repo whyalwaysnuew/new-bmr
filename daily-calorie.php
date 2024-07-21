@@ -16,10 +16,52 @@
 
 
     if(isset($_POST['submit'])){
+        $utama_1 = $_POST['utama_1'];
+        $utama_2 = $_POST['utama_2'];
+        $utama_3 = $_POST['utama_3'];
+        $sayuran_1 = $_POST['sayuran_1'];
+        $sayuran_2 = $_POST['sayuran_2'];
+        $sayuran_3 = $_POST['sayuran_3'];
+        $lauk_1 = $_POST['lauk_1'];
+        $lauk_2 = $_POST['lauk_2'];
+        $lauk_3 = $_POST['lauk_3'];
+        $minum_1 = $_POST['minum_1'];
+        $minum_2 = $_POST['minum_2'];
+        $minum_3 = $_POST['minum_3'];
+        $cemilan_1 = $_POST['cemilan_1'];
+        $cemilan_2 = $_POST['cemilan_2'];
+        $cemilan_3 = $_POST['cemilan_3'];
+        $buah_1 = $_POST['buah_1'];
+        $buah_2 = $_POST['buah_2'];
+        $buah_3 = $_POST['buah_3'];
 
-        $pagi = $_POST['utama_1'] + $_POST['sayuran_1'] + $_POST['lauk_1'] + $_POST['minum_1'] + $_POST['cemilan_1'] + $_POST['buah_1'];
-        $siang = $_POST['utama_2'] + $_POST['sayuran_2'] + $_POST['lauk_2'] + $_POST['minum_2'] + $_POST['cemilan_2'] + $_POST['buah_2'];
-        $malam = $_POST['utama_3'] + $_POST['sayuran_3'] + $_POST['lauk_3'] + $_POST['minum_3'] + $_POST['cemilan_3'] + $_POST['buah_3'];
+        $utama_pagi = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$utama_1'"));
+        $utama_siang = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$utama_2'"));
+        $utama_malam = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$utama_3'"));
+        
+        $sayuran_pagi = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$sayuran_1'"));
+        $sayuran_siang = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$sayuran_2'"));
+        $sayuran_malam = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$sayuran_3'"));
+        
+        $lauk_pagi = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$lauk_1'"));
+        $lauk_siang = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$lauk_2'"));
+        $lauk_malam = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$lauk_3'"));
+        
+        $minum_pagi = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$minum_1'"));
+        $minum_siang = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$minum_2'"));
+        $minum_malam = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$minum_3'"));
+        
+        $cemilan_pagi = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$cemilan_1'"));
+        $cemilan_siang = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$cemilan_2'"));
+        $cemilan_malam = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$cemilan_3'"));
+        
+        $buah_pagi = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$buah_1'"));
+        $buah_siang = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$buah_2'"));
+        $buah_malam = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM consumption WHERE id='$buah_3'"));
+
+        $pagi = $utama_pagi['energy'] + $sayuran_pagi['energy'] + $lauk_pagi['energy'] + $minum_pagi['energy'] + $cemilan_pagi['energy'] + $buah_pagi['energy'];
+        $siang = $utama_siang['energy'] + $sayuran_malam['energy'] + $lauk_siang['energy'] + $minum_siang['energy'] + $cemilan_siang['energy'] + $buah_siang['energy'];
+        $malam = $utama_malam['energy'] + $sayuran_siang['energy'] + $lauk_malam['energy'] + $minum_malam['energy'] + $cemilan_malam['energy'] + $buah_malam['energy'];
         
     }
 ?>
@@ -193,6 +235,31 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Hitung Kalori Harian</h1>
+                        <?php if(isset($_POST['submit'])) {?>
+                            <div class="d-flex">
+                                <form action="app/main/daily-calorie-print.php" target="_blank" class="mr-2" method="post">
+                                    <input type="hidden" name="utama_1" value="<?= $utama_1; ?>">
+                                    <input type="hidden" name="utama_2" value="<?= $utama_2; ?>">
+                                    <input type="hidden" name="utama_3" value="<?= $utama_3; ?>">
+                                    <input type="hidden" name="sayuran_1" value="<?= $sayuran_1; ?>">
+                                    <input type="hidden" name="sayuran_2" value="<?= $sayuran_2; ?>">
+                                    <input type="hidden" name="sayuran_3" value="<?= $sayuran_3; ?>">
+                                    <input type="hidden" name="lauk_1" value="<?= $lauk_1; ?>">
+                                    <input type="hidden" name="lauk_2" value="<?= $lauk_2; ?>">
+                                    <input type="hidden" name="lauk_3" value="<?= $lauk_3; ?>">
+                                    <input type="hidden" name="minum_1" value="<?= $minum_1; ?>">
+                                    <input type="hidden" name="minum_2" value="<?= $minum_2; ?>">
+                                    <input type="hidden" name="minum_3" value="<?= $minum_3; ?>">
+                                    <input type="hidden" name="cemilan_1" value="<?= $cemilan_1; ?>">
+                                    <input type="hidden" name="cemilan_2" value="<?= $cemilan_2; ?>">
+                                    <input type="hidden" name="cemilan_3" value="<?= $cemilan_3; ?>">
+                                    <input type="hidden" name="buah_1" value="<?= $buah_1; ?>">
+                                    <input type="hidden" name="buah_2" value="<?= $buah_2; ?>">
+                                    <input type="hidden" name="buah_3" value="<?= $buah_3; ?>">
+                                    <button type="submit" class="btn btn-success btn-sm">Print</button>
+                                </form>
+                            </div>
+                        <?php } ?>
                     </div>
 
                     <?php if(!isset($_POST['submit'])) {?>
@@ -214,7 +281,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($utama) {?>
                                                         <?php foreach ($utama as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -225,7 +292,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($sayur) {?>
                                                         <?php foreach ($sayur as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -236,7 +303,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($lauk) {?>
                                                         <?php foreach ($lauk as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -247,7 +314,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($minuman) {?>
                                                         <?php foreach ($minuman as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -258,7 +325,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($cemilan) {?>
                                                         <?php foreach ($cemilan as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -269,7 +336,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($buah) {?>
                                                         <?php foreach ($buah as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -292,7 +359,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($utama) {?>
                                                         <?php foreach ($utama as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -303,7 +370,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($sayur) {?>
                                                         <?php foreach ($sayur as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -314,7 +381,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($lauk) {?>
                                                         <?php foreach ($lauk as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -325,7 +392,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($minuman) {?>
                                                         <?php foreach ($minuman as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -336,7 +403,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($cemilan) {?>
                                                         <?php foreach ($cemilan as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -347,7 +414,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($buah) {?>
                                                         <?php foreach ($buah as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -370,7 +437,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($utama) {?>
                                                         <?php foreach ($utama as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -381,7 +448,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($sayur) {?>
                                                         <?php foreach ($sayur as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -392,7 +459,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($lauk) {?>
                                                         <?php foreach ($lauk as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -403,7 +470,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($minuman) {?>
                                                         <?php foreach ($minuman as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -414,7 +481,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($cemilan) {?>
                                                         <?php foreach ($cemilan as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -425,7 +492,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($buah) {?>
                                                         <?php foreach ($buah as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>

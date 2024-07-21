@@ -211,66 +211,66 @@
                                     <tbody>
                                         <?php if($questions) {?>
                                             <?php foreach ($questions as $key => $question) { ?>
-                                            <tr>
-                                                <td class="text-center align-middle"><?= $key+1; ?></td>
-                                                <td class="align-middle"><?= $question['quest']; ?></td>
-                                                <td class="align-middle justify-content-center">
-                                                    <a href="#" class="btn btn-warning text-white" data-toggle="modal" data-target="#editModal<?= $key ?>">Ubah</a>
-                                                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $key ?>">Hapus</a>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td class="text-center align-middle"><?= $key+1; ?></td>
+                                                    <td class="align-middle"><?= $question['quest']; ?></td>
+                                                    <td class="align-middle justify-content-center">
+                                                        <a href="#" class="btn btn-warning text-white" data-toggle="modal" data-target="#editModal<?= $key ?>">Ubah</a>
+                                                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $key ?>">Hapus</a>
+                                                    </td>
+                                                </tr>
 
-                                            <div class="modal fade" id="editModal<?= $key ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Edit Rules Pertanyaan</h5>
-                                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">×</span>
-                                                            </button>
-                                                        </div>
-                                                        <form action="app/question/update.php" method="post">
-                                                            <div class="modal-body">
-                                                                <input type="hidden" name="id" id="id" value="<?= $question['id']; ?>">
+                                                <div class="modal fade" id="editModal<?= $key ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Edit Rules Pertanyaan</h5>
+                                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <form action="app/question/update.php" method="post">
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="id" id="id" value="<?= $question['id']; ?>">
 
-                                                                <div class="form-group">
-                                                                    <label for="question">Pertanyaan</label>
-                                                                    <textarea name="question" id="question" class="form-control"><?= $question['quest'] ?></textarea>
+                                                                    <div class="form-group">
+                                                                        <label for="question">Pertanyaan</label>
+                                                                        <textarea name="question" id="question" class="form-control"><?= $question['quest'] ?></textarea>
+                                                                    </div>
+
                                                                 </div>
-
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="modal fade" id="deleteModal<?= $key ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Yakin Ingin Hapus?</h5>
-                                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">×</span>
-                                                            </button>
+                                                                <div class="modal-footer">
+                                                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                        <form action="app/question/delete.php" method="post">
-                                                            <div class="modal-body">
-                                                                <input type="hidden" name="id" id="id" value="<?= $question['id']; ?>">
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class="btn btn-danger" name="submit">Delete</button>
-                                                            </div>
-                                                        </form>
                                                     </div>
                                                 </div>
-                                            </div>
+
+                                                <div class="modal fade" id="deleteModal<?= $key ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Yakin Ingin Hapus?</h5>
+                                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <form action="app/question/delete.php" method="post">
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="id" id="id" value="<?= $question['id']; ?>">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" class="btn btn-danger" name="submit">Delete</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                         <?php } }?>
                                         

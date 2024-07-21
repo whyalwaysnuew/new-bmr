@@ -35,7 +35,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hitung Kalori Harian | BMR Calculator</title>
+    <title>Konsultasi | BMR Calculator</title>
 
     <!-- Custom fonts for this template-->
     <link href="public/sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -192,7 +192,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Hitung Kalori Harian</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Konsultasi</h1>
                     </div>
 
                         <form action="" method="post">
@@ -201,79 +201,6 @@
         
                                 <div class="col-12 col-md-6 col-lg-4 mb-4">
         
-                                    <!-- Illustrations -->
-                                    <div class="card shadow mb-4">
-                                        <div class="card-header py-3">
-                                            <h6 class="m-0 font-weight-bold text-primary">Pagi</h6>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <label for="utama_1">Makanan Utama</label>
-                                                <select class="form-control" id="utama_1" name="utama_1" require>
-                                                    <option value="0" selected>-- Pilih --</option>
-                                                    <?php if($utama) {?>
-                                                        <?php foreach ($utama as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
-                                                    <?php }}?>
-                                                </select>
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <label for="sayuran_1">Sayuran</label>
-                                                <select class="form-control" id="sayuran_1" name="sayuran_1">
-                                                    <option value="0" selected>-- Pilih --</option>
-                                                    <?php if($sayur) {?>
-                                                        <?php foreach ($sayur as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
-                                                    <?php }}?>
-                                                </select>
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <label for="lauk_1">Lauk</label>
-                                                <select class="form-control" id="lauk_1" name="lauk_1">
-                                                    <option value="0" selected>-- Pilih --</option>
-                                                    <?php if($lauk) {?>
-                                                        <?php foreach ($lauk as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
-                                                    <?php }}?>
-                                                </select>
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <label for="minum_1">Minuman</label>
-                                                <select class="form-control" id="minum_1" name="minum_1">
-                                                    <option value="0" selected>-- Pilih --</option>
-                                                    <?php if($minuman) {?>
-                                                        <?php foreach ($minuman as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
-                                                    <?php }}?>
-                                                </select>
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <label for="cemilan_1">Cemilan</label>
-                                                <select class="form-control" id="cemilan_1" name="cemilan_1">
-                                                    <option value="0" selected>-- Pilih --</option>
-                                                    <?php if($cemilan) {?>
-                                                        <?php foreach ($cemilan as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
-                                                    <?php }}?>
-                                                </select>
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <label for="buah_1">Buah</label>
-                                                <select class="form-control" id="buah_1" name="buah_1">
-                                                    <option value="0" selected>-- Pilih --</option>
-                                                    <?php if($buah) {?>
-                                                        <?php foreach ($buah as $row) { ?>
-                                                        <option value="<?= $row['energy'] ?>"><?= $row['name'] ?></option>
-                                                    <?php }}?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
         
                                 </div>
                                 
@@ -281,7 +208,7 @@
 
                             <div class="row mb-5">
                                 <div class="col-12 d-flex justify-content-end">
-                                    <button type="submit" name="submit" class="btn btn-primary col-12 py-2">Submit</button>
+                                    <!-- <button type="submit" name="submit" class="btn btn-primary col-12 py-2">Submit</button> -->
                                 </div>
                             </div>
                         </form>
