@@ -12,17 +12,18 @@
 
     if(isset($_POST['submit'])){
 
+        $scale_id = $_POST['scale'];
         $age = $_POST['age'] ?? 0;
         $gender = $_POST['gender'] ? ($_POST['gender'] == 1 ? -161 : 5) : 0;
         $height = $_POST['height'] ?? 0;
         $weight = $_POST['weight'] ?? 0;
-        $scale = $_POST['scale'] ?? 0;
+        $activity_scale = $scale_id ? mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM activity_scale WHERE id=$scale_id")) : null;
 
         $bmr_actual = (10 * $_POST['weight']) + (6.25 * $_POST['height']) - (5 * $_POST['age']) + $gender;
         $bmr_ideal = (10 * ($_POST['height'] - 100)) + (6.25 * $_POST['height']) - (5 * $_POST['age']) + $gender;
 
-        $calorie_needs_actual = $bmr_actual * $scale;
-        $calorie_needs_ideal = $bmr_ideal * $scale;
+        $calorie_needs_actual = $bmr_actual * $activity_scale['scale'];
+        $calorie_needs_ideal = $bmr_ideal * $activity_scale['scale'];
 
     }
 ?>
@@ -198,7 +199,15 @@
                         <h1 class="h3 mb-0 text-gray-800">Hitung Bassal Metabolic Rate</h1>
                         <?php if(isset($_POST['submit'])) {?>
                             <div class="d-flex">
-                                <a href="app/main/bmr-print.php?age=<?=$age?>&weight=<?=$weight?>&height=<?=$height?>&gender=<?=$_POST['gender']?>&scale=<?=$scale?>" target="_blank" class="btn btn-sm btn-success mr-2">Print</a>
+                                <form action="app/main/bmr-print.php" target="_blank" class="mr-2" method="post">
+                                    <input type="hidden" name="age" value="<?= $age; ?>">
+                                    <input type="hidden" name="weight" value="<?= $weight; ?>">
+                                    <input type="hidden" name="height" value="<?= $height; ?>">
+                                    <input type="hidden" name="gender" value="<?= $gender; ?>">
+                                    <input type="hidden" name="scale" value="<?= $activity_scale['scale']; ?>">
+                                    <input type="hidden" name="scale_name" value="<?= $activity_scale['name']; ?>">
+                                    <button type="submit" class="btn btn-success btn-sm">Print</button>
+                                </form>
                                 <a href="" class="btn btn-sm btn-primary">Hitung Ulang</a>
                             </div>
                         <?php } ?>
@@ -244,7 +253,7 @@
                                                     <option value="0" selected>-- Pilih --</option>
                                                     <?php if($activity_scale) {?>
                                                         <?php foreach ($activity_scale as $row) { ?>
-                                                        <option value="<?= $row['scale'] ?>"><?= $row['name'] ?></option>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php }}?>
                                                 </select>
                                             </div>
@@ -294,6 +303,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-12 col-md-4 mb-4">
                                 <div class="card <?= $calorie_needs_actual == $calorie_needs_ideal ? 'border-left-success' : ($calorie_needs_actual < $calorie_needs_ideal ? 'border-left-danger' : 'border-left-info') ?> shadow h-100 py-2">
                                     <div class="card-body">
@@ -307,6 +317,131 @@
                                                 <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-4">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Data</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <table>
+                                            <tr class="">
+                                                <td>Nama</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_SESSION['name']; ?></td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>Umur</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_POST['age']; ?></td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>Jenis Kelamin</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_POST['gender'] == '1' ? 'Perempuan' : 'Laki-laki'; ?></td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>Tinggi Badan</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_POST['height']; ?> cm</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>Berat Badan Aktual</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_POST['weight']; ?> kg</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>Berat Badan Ideal</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_POST['height'] - 100; ?> kg</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>
+                                                    Intensitas Aktifitas<br/>
+                                                    (Aktifitas Fisik)
+                                                </td>
+                                                <td class="px-2">:</td>
+                                                <td><?= @$activity_scale['name']; ?> (<?= @$activity_scale['scale']; ?>)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-8 mb-4">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Perhitungan</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="" class="form-label font-weight-bold">Rumus</label>
+                                        <h6>
+                                            BMR = (10 x berat badan aktual) + (6.25 + tinggi badan) - (5 x umur) <?= $_POST['gender'] == 1 ? '- 161' : '+ 5'; ?>
+                                        </h6>
+                                        <h6 class="mb-5">
+                                            Kebutuhan Kalori Harian = BMR x Aktifitas Fisik
+                                        </h6>
+                                        <table class="table-bordered col-12">
+                                            <thead class="text-center align-middle">
+                                                <tr class="py-5">
+                                                    <th>Berat Badan Aktual</th>
+                                                    <th>Berat Badan Ideal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="px-2 py-3">
+                                                        BMR = (10 x <?= $_POST['weight']; ?>) + (6.25 + <?= $_POST['height']?>) - (5 - <?= $_POST['age']; ?>) <?= $_POST['gender'] == 1 ? '- 161' : '+ 5'; ?>
+                                                    </td>
+                                                    <td class="px-2 py-3">
+                                                        BMR = (10 x (<?= $_POST['height']; ?> - 100)) + (6.25 + <?= $_POST['height']?>) - (5 - <?= $_POST['age']; ?>) <?= $_POST['gender'] == 1 ? '- 161' : '+ 5'; ?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-2 py-3">
+                                                        BMR = (<?= 10 * $_POST['weight']; ?>) + (<?= 6.25 + $_POST['height']?>) - (<?= 5 - $_POST['age']; ?>) <?= $_POST['gender'] == 1 ? '- 161' : '+ 5'; ?>
+                                                    </td>
+                                                    <td class="px-2 py-3">
+                                                        BMR = (<?= 10 * ($_POST['height'] - 100); ?>) + (<?= 6.25 + $_POST['height']?>) - (<?= 5 - $_POST['age']; ?>) <?= $_POST['gender'] == 1 ? '- 161' : '+ 5'; ?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-2 py-3">
+                                                        BMR = <?= $bmr_actual ?>
+                                                    </td>
+                                                    <td class="px-2 py-3">
+                                                        BMR = <?= $bmr_ideal?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-2 py-3">
+                                                        Kebutuhan Kalori Harian = BMR x Aktifitas Fisik
+                                                    </td>
+                                                    <td class="px-2 py-3">
+                                                        Kebutuhan Kalori Ideal = BMR x Aktifitas Fisik
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-2 py-3">
+                                                        Kebutuhan Kalori Harian = <?= $bmr_actual; ?> x <?= $activity_scale['scale']; ?>
+                                                    </td>
+                                                    <td class="px-2 py-3">
+                                                        Kebutuhan Kalori Ideal = <?= $bmr_ideal; ?> x <?= $activity_scale['scale']?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-2 py-3 font-weight-bold text-dark fs-2">
+                                                        <?= $calorie_needs_actual; ?> Kkal
+                                                    </td>
+                                                    <td class="px-2 py-3 font-weight-bold text-dark fs-2">
+                                                        <?= $calorie_needs_ideal; ?> Kkal
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
