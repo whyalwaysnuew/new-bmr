@@ -1,5 +1,6 @@
 <?php 
     session_start();
+    $setting = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM settings WHERE id=1"));
 
     $age = $_POST['age'] ?? 0;
     $gender = $_POST['gender'] ? ($_POST['gender'] == 1 ? -161 : 5) : 0;
@@ -48,9 +49,9 @@
                         <img src="../../public/assets/img/rs.jpg" alt="" class="img-fluid">
                     </div>
                     <div class="text-center col-10">
-                        <h2 class="font-weight-bold">RS Mitra Keluarga Cikarang</h2>
-                        <h7 class="mt-2">Alamat: Jl. Raya industri No.100, Cikarang, Kec. Cikarang Utara, Kabupaten Bekasi, Jawa Barat 17550</h7>
-                        <h6 class="mt-2">Telp: (021) 89840500</h6>
+                        <h2 class="font-weight-bold"><?= $setting['name'] ?? null; ?></h2>
+                        <h7 class="mt-2">Alamat: <?= $setting['address']; ?></h7>
+                        <h6 class="mt-2">Telp: <?= $setting['phone']; ?></h6>
                     </div>
                 </div>
             </div>
@@ -142,7 +143,7 @@
                             </tr>
                             <tr>
                                 <td class="text-center font-weight-bold">
-                                    [Nama Dokter]
+                                    <?= $setting['doctor']; ?>
                                 </td>
                             </tr>
                         </table>
