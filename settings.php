@@ -6,8 +6,41 @@
         header("Location: login.php");
         exit(); 
     }
-    // $query = "";
-    // $urlcrud
+
+    $setting = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM settings WHERE id=1"));
+
+    if(isset($_POST['submit'])){
+        $phone = $_POST['phone'];
+        $address = $_POST['address'];
+        $name = $_POST['name'];
+        $doctor = $_POST['doctor'];
+
+        $query = mysqli_query($koneksi, "
+                UPDATE settings SET 
+                    name = '$name',
+                    address = '$address',
+                    phone = '$phone',
+                    doctor = '$doctor'
+                WHERE id = '1'
+                ");
+
+        if($query) {
+
+            echo "
+                <script>
+                    alert('Berhasil Ubah Data!');
+                    document.location='settings.php';
+                </script>
+            ";
+        } else {
+            echo "
+                <script>
+                    alert('Error!');
+                    document.location='settings.php';
+                </script>
+            ";
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +54,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard | BMR Calculator</title>
+    <title>Pengaturan | BMR Calculator</title>
 
     <!-- Custom fonts for this template-->
     <link href="public/sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -56,7 +89,7 @@
             </div>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/bmr-calculator">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -114,7 +147,7 @@
             </li>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="settings.php">
                     <i class="fas fa-cogs"></i>
                     <span>Pengaturan</span></a>
@@ -178,89 +211,42 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Pengaturan</h1>
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row">
-
-						<div class="col-12 col-md-6 col-lg-3 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Bassal Metabolic Rate</h6>
-                                </div>
-                                <div class="card-body">
-									<div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="public/assets/media/illustrations/sketchy-1/1.png" alt="...">
+                     <form action="" method="post">
+                         <div class="row">
+                             <div class="col-12">
+                                 <div class="card shadow">
+                                     <div class="card-header py-3">
+                                         <h6 class="m-0 font-weight-bold text-primary">Detail</h6>
+                                     </div>
+                                     <div class="card-body d-flex flex-wrap">
+                                        <div class="form-group col-12 col-md-6">
+                                            <label for="name" class="font-weight-bold">Nama Instansi</label>
+                                            <input type="text" name="name" id="name" placeholder="e.g. RS Mitra Keluarga" class="form-control" value="<?= $setting['name']; ?>" require>
+                                        </div>
+                                        <div class="form-group col-12 col-md-6">
+                                            <label for="doctor" class="font-weight-bold">Nama Dokter</label>
+                                            <input type="text" name="doctor" id="doctor" placeholder="e.g. Gian Pranata" class="form-control" value="<?= $setting['doctor']; ?>" require>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label for="address" class="font-weight-bold">Alamat</label>
+                                            <textarea name="address" id="address" class="form-control"><?= $setting['address']; ?></textarea>
+                                        </div>
+                                        <div class="form-group col-12 col-md-6">
+                                            <label for="phone" class="font-weight-bold">No Telp</label>
+                                            <input type="text" name="phone" id="phone" placeholder="e.g. 08123455" class="form-control" value="<?= $setting['phone']; ?>" require>
+                                        </div>
+                                     </div>
+                                     <div class="card-footer d-flex justify-content-end">
+                                        <button type="submit" name="submit" class="btn btn-primary col-12 py-2">Update</button>
                                     </div>
-                                    <p>Hitung kebutuhan kalori harian menggunakan persamaan Mifflin-St.Jeor</p>
-                                    <a href="bmr.php">Mulai &rarr;</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-						<div class="col-12 col-md-6 col-lg-3 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Kalori Harian</h6>
-                                </div>
-                                <div class="card-body">
-									<div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="public/assets/media/illustrations/sketchy-1/4.png" alt="...">
-                                    </div>
-                                    <p>Hitung kalori dari makanan yang Anda konsumsi hari ini</p>
-                                    <a href="daily-calorie.php">Mulai &rarr;</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-						<div class="col-12 col-md-6 col-lg-3 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Aktifitas Fisik</h6>
-                                </div>
-                                <div class="card-body">
-									<div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="public/assets/media/illustrations/sketchy-1/9.png" alt="...">
-                                    </div>
-                                    <p>Lihat rekomendasi aktifitas fisik yang mudah untuk dilakukan</p>
-                                    <a href="daily-activity.php">Mulai &rarr;</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-						<div class="col-12 col-md-6 col-lg-3 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Konsultasi</h6>
-                                </div>
-                                <div class="card-body">
-									<div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="public/assets/media/illustrations/sketchy-1/5.png" alt="...">
-                                    </div>
-                                    <p>Konsultasi berat badan ideal menggunakan rumus Harris-Benedict dengan menjawab beberapa pertanyaan</p>
-                                    <a href="consultation.php">Mulai &rarr;</a>
-                                </div>
-                            </div>
-
-                        </div>
-                        
-                    </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </form>
 
                 </div>
                 <!-- /.container-fluid -->

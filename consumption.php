@@ -122,9 +122,9 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="question.php">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Rules Pertanyaan</span></a>
+                <a class="nav-link" href="settings.php">
+                    <i class="fas fa-cogs"></i>
+                    <span>Pengaturan</span></a>
             </li>
 
             <!-- Divider -->

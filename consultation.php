@@ -7,20 +7,30 @@
         exit(); 
     }
 
-    $utama = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='1'");
-    $sayur = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='2'");
-    $lauk = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='3'");
-    $minuman = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='4'");
-    $cemilan = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='5'");
-    $buah = mysqli_query($koneksi, "SELECT * FROM consumption WHERE type='6'");
-
+    $activity_scale = mysqli_query($koneksi, "SELECT * FROM activity_scale");
 
     if(isset($_POST['submit'])){
 
-        $pagi = $_POST['utama_1'] + $_POST['sayuran_1'] + $_POST['lauk_1'] + $_POST['minum_1'] + $_POST['cemilan_1'] + $_POST['buah_1'];
-        $siang = $_POST['utama_2'] + $_POST['sayuran_2'] + $_POST['lauk_2'] + $_POST['minum_2'] + $_POST['cemilan_2'] + $_POST['buah_2'];
-        $malam = $_POST['utama_3'] + $_POST['sayuran_3'] + $_POST['lauk_3'] + $_POST['minum_3'] + $_POST['cemilan_3'] + $_POST['buah_3'];
-        
+        $scale_id = $_POST['scale'];
+        $age = $_POST['age'] ?? 0;
+        $gender = $_POST['gender'] ?? 0;
+        $height = $_POST['height'] ?? 0;
+        $weight = $_POST['weight'] ?? 0;
+        $target_weight = $_POST['target_weight'] ?? 0;
+        $activity_scale = $scale_id ? mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM activity_scale WHERE id=$scale_id")) : null;
+
+        // Hitung BMR
+        if($gender == 1){
+            $bmr = 655 + (9.6 * $weight) + (1.8 * $height) - (4.7 * $age); // Perempuan
+        } else if($gender == 2) {
+            $bmr = 66 + (13.7 * $weight) + (5 * $height) - (6.8 * $age); // Laki-laki
+        } else {
+            $bmr = 0;
+        }
+
+        // Menghitung kebutuhan kalori harian
+        $calorie_needs = $bmr * $activity_scale['scale'];
+
     }
 ?>
 
@@ -193,15 +203,86 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Konsultasi</h1>
+                        <?php if(isset($_POST['submit'])) {?>
+                            <div class="d-flex">
+                                <form action="app/main/consultation-print.php" target="_blank" class="mr-2" method="post">
+                                    <input type="hidden" name="age" value="<?= $age; ?>">
+                                    <input type="hidden" name="weight" value="<?= $weight; ?>">
+                                    <input type="hidden" name="target_weight" value="<?= $target_weight; ?>">
+                                    <input type="hidden" name="height" value="<?= $height; ?>">
+                                    <input type="hidden" name="gender" value="<?= $gender; ?>">
+                                    <input type="hidden" name="scale" value="<?= $activity_scale['scale']; ?>">
+                                    <input type="hidden" name="scale_name" value="<?= $activity_scale['name']; ?>">
+                                    <button type="submit" class="btn btn-success btn-sm">Print</button>
+                                </form>
+                                <a href="" class="btn btn-sm btn-primary">Hitung Ulang</a>
+                            </div>
+                        <?php } ?>
                     </div>
-
+                    <?php if(!isset($_POST['submit'])) {?>
                         <form action="" method="post">
                             <!-- Content Row -->
                             <div class="row">
         
-                                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                                <div class="col-12 col-md-6 mb-4">
+                                    <div class="card shadow">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">Detail</h6>
+                                        </div>
+                                        <div class="card-body d-flex flex-wrap">
+                                            <div class="form-group col-12">
+                                                <label for="gender" class="font-weight-bold">Apa jenis kelamin anda?</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="gender" id="gender1" value="1" checked>
+                                                    <label class="form-check-label" for="gender1">
+                                                        Peremuan
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="gender" id="gender2" value="2">
+                                                    <label class="form-check-label" for="gender2">
+                                                        Laki-laki
+                                                    </label>
+                                                </div>
+                                            </div>
         
+                                            <div class="form-group col-12">
+                                                <label for="age" class="font-weight-bold">Berapa usia Anda?</label>
+                                                <input type="number" name="age" id="age" placeholder="e.g. 20" class="form-control col-3" value="0" require>
+                                            </div>
+
+                                            <div class="form-group col-12">
+                                                <label for="height" class="font-weight-bold">Berapa tinggi badan Anda?</label>
+                                                <input type="number" name="height" id="height" placeholder="e.g. 167" class="form-control col-3" value="0" require>
+                                            </div>
+                                            
+                                            <div class="form-group col-12">
+                                                <label for="weight" class="font-weight-bold">Berapa berat badan Anda?</label>
+                                                <input type="number" name="weight" id="weight" placeholder="e.g. 50" class="form-control col-3" value="0" require>
+                                            </div>
         
+                                            <div class="form-group col-12">
+                                                <label for="scale" class="font-weight-bold">Berapa tingkat aktifitas fisik Anda sehari-hari?</label>
+                                                <select class="form-control col-3" id="scale" name="scale">
+                                                    <option value="0" disabled selected>-- Pilih --</option>
+                                                    <?php if($activity_scale) {?>
+                                                        <?php foreach ($activity_scale as $row) { ?>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                                    <?php }}?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-12">
+                                                <label for="target_weight" class="font-weight-bold">Berapa target berat badan Anda?</label>
+                                                <input type="number" name="target_weight" id="target_weight" placeholder="e.g. 50" class="form-control col-3" value="0" require>
+                                            </div>
+        
+                                        </div>
+
+                                        <div class="card-footer d-flex justify-content-end">
+                                            <button type="submit" name="submit" class="btn btn-primary col-12 py-2">Submit</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 
                             </div>
@@ -212,6 +293,123 @@
                                 </div>
                             </div>
                         </form>
+                    <?php } else {?>
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Data</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <table>
+                                            <tr class="">
+                                                <td>Nama</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_SESSION['name']; ?></td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>Umur</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_POST['age']; ?></td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>Jenis Kelamin</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_POST['gender'] == '1' ? 'Perempuan' : 'Laki-laki'; ?></td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>Tinggi Badan</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_POST['height']; ?> cm</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>Berat Badan Aktual</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_POST['weight']; ?> kg</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>Target Berat Badan Ideal</td>
+                                                <td class="px-2">:</td>
+                                                <td><?= $_POST['target_weight']; ?> kg</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>
+                                                    Intensitas Aktifitas<br/>
+                                                    (Aktifitas Fisik)
+                                                </td>
+                                                <td class="px-2">:</td>
+                                                <td><?= @$activity_scale['name']; ?> (<?= @$activity_scale['scale']; ?>)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-8">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Perhitungan</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="" class="form-label font-weight-bold">Rumus</label>
+                                        <h6>
+                                            <b>BMR Perempuan</b> <br>
+                                            655 + (9.6 x berat badan dalam kilogram) + (1.8 x tinggi dalam centimeter) - (4.7 x usia dalam tahun)
+                                        </h6>
+                                        <br>
+                                        <h6>
+                                            <b>BMR Laki-laki</b> <br>
+                                            66 + (13.7 x berat badan dalam kilogram) + (5x tinggi dalam centimeter) - (6.8 x usia dalam tahun)
+                                        </h6>
+                                        <br>
+                                        <h6 class="">
+                                            <b>Kebutuhan Kalori Harian</b> = BMR x Aktifitas Fisik
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Hasil</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex col-12">
+                                            <div class="col-4">
+                                                <div class="text-center">
+                                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                                        src="public/assets/media/illustrations/sketchy-1/7.png" alt="...">
+                                                </div>
+                                            </div>
+                                            <div class="col-8 d-flex align-items-center">
+                                                <div>
+                                                    <p>
+                                                        Berdasarkan tinggi badan, rentang berat badan ideal Anda adalah <b><?= $height - 100; ?> - <?= $height - 90; ?> Kg</b>
+                                                    </p>
+                                                    <p>
+                                                        <b><?= $calorie_needs; ?></b> kalori/hari untuk mempertahankan berat badan saat ini dengan tingkat aktifitas <?= $activity_scale['name']; ?>
+                                                    </p>
+                                                    <br>
+                                                    <p class=" fs-2hx">
+                                                        Untuk mencapai target berat badan ideal <b><?= $target_weight; ?> Kg</b>, perlu <?= $weight > $target_weight ? 'penurunan' : 'peningkatan'; ?> berat badan sebesar <b><?= abs($target_weight - $weight) . ' Kg.'; ?></b>
+                                                        <br>
+                                                        Disarankan untuk <?= $weight > $target_weight ? 'mengurangi' : 'menambah'; ?> kalori harian dan <?= $weight > $target_weight ? 'meningkatkan' : 'menjaga'; ?> aktifitas fisik.
+                                                    </p>
+                                                    <br>
+                                                    <p class=" fs-2hx">
+                                                        Kebutuhan kalori harian Anda adalah <b><?= $calorie_needs; ?></b>. Anda perlu <?= $weight > $target_weight ? 'mengurangi' : 'menambahkan'; ?> <b>500 -1000</b> kalori.
+                                                        <br>
+                                                        Anda bisa <?= $weight > $target_weight ? 'mengurangi' : 'meningkatkan'; ?> asupan kalori harian menjadi sekitar <b><?= $weight > $target_weight ? $calorie_needs - 1000 : $calorie_needs + 500; ?> - <?= $weight > $target_weight ? $calorie_needs - 500 : $calorie_needs + 1000; ?></b> kalori perhari.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
                 <!-- /.container-fluid -->
 
