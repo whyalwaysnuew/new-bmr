@@ -1,4 +1,5 @@
 <?php 
+    require_once('../../database/koneksi.php');
     session_start();
     $setting = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM settings WHERE id=1"));
 
