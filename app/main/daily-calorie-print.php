@@ -190,7 +190,7 @@
                     <div class="col-12 row justify-content-end">
                         <table>
                             <tr>
-                                <td class="text-center py-2">Jakarta, <?= date('d/m/Y'); ?></td>
+                                <td class="text-center py-2">Jakarta, <?= date('l d F Y'); ?></td>
                             </tr>
                             <tr>
                                 <td class="text-center py-2">Mengetahui,</td>
